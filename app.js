@@ -1,25 +1,31 @@
 window.onload = function () {
 
     var APIKey = "yQCxNg8ge124VevFZPY3tVrN0POiyQEx";
-
-    var topics = ["cat", "fish", "sloth", "otter", "seal", "monkey", "beaver", "penguin"];
-
+    var clicks = 0;
+    var topics = ["cat", "fish", "sloth", "otter", "seal", "monkey", "puppy", "penguin"];
+    var counter = 0;
     function displayAnimals() {
-
+       $(this).attr("data-clicks", clicks);
+    //    clicks =  $(this).attr("data-clicks")
+        var l = 24;
+        
+        if (clicks > 0)    {
+            l = 10;
+        }
+        clicks++
         //this refers to the button clicked
-        console.log(this)
         var topic = $(this).attr("data-name");
-        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + topic + "&api_key=yQCxNg8ge124VevFZPY3tVrN0POiyQEx&limit=24";
-
+        
+        var giphyURL = "https://api.giphy.com/v1/gifs/search?q=" + topic + "&api_key=yQCxNg8ge124VevFZPY3tVrN0POiyQEx&limit="+l;
+       
+        var movieURL = "https://www.omdbapi.com/?t=" + topic + "&y=&plot=short&apikey=trilogy"
         //returns object with array called data.
-
         // Creates AJAX call for the specific animal button being clicked
         $.ajax({
-            url: queryURL,
+            url: giphyURL,
             method: "GET"
         }).then(function (response) {
-            console.log((response))
-
+          
             var results = response.data;
             for (var i = 0; i < results.length; i++) {
 
@@ -28,49 +34,31 @@ window.onload = function () {
                 var p = $("<p/>");
                 var t = $("<p/>");
                 var c = $("<button>");
-                $(p).text("Rating: " + results[i].rating).addClass("h5 mb-4")
-                $(t).text("Title: " + results[i].title).addClass("h5 mb-1");
-                $(c).text("Add to Favorites").addClass("btn-danger favorites")
+                $(p).text("Rating: " + results[i].rating).addClass("h5 mb-2")
+                $(t).text(results[i].title).addClass("h5 mb-1");
+                $(c).text("Add to Favorites").addClass("btn-danger favorites mb-4")
                 var animalImage = $("<img/>");
                 $(animalImage).attr("src", results[i].images.fixed_height_still.url);
-                $(animalDiv).append(t, animalImage, p, c)
+                $(animalDiv).append(t, animalImage, p, c).addClass("bg-light")
                 $(animalImage).attr("data-still", results[i].images.fixed_height_still.url)
                 $(animalImage).attr("data-animate", results[i].images.fixed_height.url)
-                $(animalImage).attr("data-state", "still")
-                $(animalImage).addClass("gif")
+                $(animalImage).attr("data-state", "still").addClass("gif")
                 $("#animals-view").prepend(animalDiv)
-            }
-            // // JSON.stringify
-            // var image = $("<img/>");
-            // $(image).attr("src", results[i].images.original_still.url )
-
-            //   $("#animals-view").prepend(
-            //     "<p> Rating: " + results[i].rating + "</p>",
-            //     image
-
+            }       
             //     // `<img src=${response.data[i].images.original_still.url}/>`
-
-            //   )
-
         });
-
-
-
 
     }
 
     //button to add gif to favorites
     $(document).on("click", ".favorites", function () {
         var fave = $(this).closest("div").find(".gif")   //looks up to next div then back in for closest .gif
-        console.log(fave)
-    $(fave).clone().appendTo("#favoriteDiv");
+    $(fave).clone().appendTo("#favoriteDiv").addClass("m-2");
+    // localStorage.setItem('faves', fave);
 
     })
 
-
-
     // create ajax callback function to query giphy using my API.
-
     function renderButtons() {
 
         $("#buttons-view").empty();
@@ -110,7 +98,6 @@ window.onload = function () {
     $(document).on("click", ".gif", function () {
 
         // variable named state to store the image's data-state into it.
-
         var state = $(this).attr("data-state");
         console.log(state);
         if (state === "still") {
@@ -126,13 +113,8 @@ window.onload = function () {
 
     });
 
-
     renderButtons();
 
     $(document).on("click", ".animal", displayAnimals);
 
-
-
-
 }
-//create button render function to begin.  Run at bottom of page.  Clear/empty then rerun upon input submit
