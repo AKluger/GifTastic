@@ -27,11 +27,13 @@ window.onload = function () {
                 var animalDiv = $("<div/>");
                 var p = $("<p/>");
                 var t = $("<p/>");
+                var c = $("<button>");
                 $(p).text("Rating: " + results[i].rating).addClass("h5 mb-4")
                 $(t).text("Title: " + results[i].title).addClass("h5 mb-1");
+                $(c).text("Add to Favorites").addClass("btn-danger favorites")
                 var animalImage = $("<img/>");
                 $(animalImage).attr("src", results[i].images.fixed_height_still.url);
-                $(animalDiv).append(t, animalImage, p).addClass()
+                $(animalDiv).append(t, animalImage, p, c)
                 $(animalImage).attr("data-still", results[i].images.fixed_height_still.url)
                 $(animalImage).attr("data-animate", results[i].images.fixed_height.url)
                 $(animalImage).attr("data-state", "still")
@@ -57,6 +59,13 @@ window.onload = function () {
 
     }
 
+    //button to add gif to favorites
+    $(document).on("click", ".favorites", function () {
+        var fave = $(this).closest("div").find(".gif")   //looks up to next div then back in for closest .gif
+        console.log(fave)
+    $(fave).clone().appendTo("#favoriteDiv");
+
+    })
 
 
 
