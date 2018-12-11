@@ -1,23 +1,26 @@
 window.onload = function () {
-
+    // localStorage.clear();
+    // $("#favoriteDiv").html(localStorage.getItem("faves"));
+   
     var APIKey = "yQCxNg8ge124VevFZPY3tVrN0POiyQEx";
+
     var clicks = 0;
     var topics = ["cat", "fish", "sloth", "otter", "seal", "monkey", "puppy", "penguin"];
     var counter = 0;
     function displayAnimals() {
-       $(this).attr("data-clicks", clicks);
-    //    clicks =  $(this).attr("data-clicks")
+        $(this).attr("data-clicks", clicks);
+        //    clicks =  $(this).attr("data-clicks")
         var l = 24;
-        
-        if (clicks > 0)    {
+
+        if (clicks > 0) {
             l = 10;
         }
         clicks++
         //this refers to the button clicked
         var topic = $(this).attr("data-name");
-        
-        var giphyURL = "https://api.giphy.com/v1/gifs/search?q=" + topic + "&api_key=yQCxNg8ge124VevFZPY3tVrN0POiyQEx&limit="+l;
-       
+
+        var giphyURL = "https://api.giphy.com/v1/gifs/search?q=" + topic + "&api_key=yQCxNg8ge124VevFZPY3tVrN0POiyQEx&limit=" + l;
+
         var movieURL = "https://www.omdbapi.com/?t=" + topic + "&y=&plot=short&apikey=trilogy"
         //returns object with array called data.
         // Creates AJAX call for the specific animal button being clicked
@@ -25,12 +28,13 @@ window.onload = function () {
             url: giphyURL,
             method: "GET"
         }).then(function (response) {
-          
+
             var results = response.data;
             for (var i = 0; i < results.length; i++) {
 
 
                 var animalDiv = $("<div/>");
+                animalDiv.css({minWidth: "300px"});
                 var p = $("<p/>");
                 var t = $("<p/>");
                 var c = $("<button>");
@@ -43,21 +47,27 @@ window.onload = function () {
                 $(animalImage).attr("data-still", results[i].images.fixed_height_still.url)
                 $(animalImage).attr("data-animate", results[i].images.fixed_height.url)
                 $(animalImage).attr("data-state", "still").addClass("gif")
+                animalImage.attr({ width: '300px', height: '200px' });
                 $("#animals-view").prepend(animalDiv)
-            }       
+            }
             //     // `<img src=${response.data[i].images.original_still.url}/>`
         });
 
     }
 
     //button to add gif to favorites
+    //need to reference to document first because that will exist on page load, as opposed to favorites classes which does not yet..
     $(document).on("click", ".favorites", function () {
         var fave = $(this).closest("div").find(".gif")   //looks up to next div then back in for closest .gif
-    $(fave).clone().appendTo("#favoriteDiv").addClass("m-2");
-    // localStorage.setItem('faves', fave);
-
+        
+        // localStorage.setItem('faves', fave);
+        $(fave).clone().appendTo("#favoriteDiv").addClass("m-2");
+        // var newFave = fave;
+        // localStorage.setItem("faves", newFave);
+    
     })
 
+    
     // create ajax callback function to query giphy using my API.
     function renderButtons() {
 
@@ -92,7 +102,7 @@ window.onload = function () {
 
         // Calling renderButtons which handles the processing of our topics array
         renderButtons();
-
+        $("#animal-input").val("")
     })
 
     $(document).on("click", ".gif", function () {
@@ -114,7 +124,7 @@ window.onload = function () {
     });
 
     renderButtons();
-
+    
     $(document).on("click", ".animal", displayAnimals);
 
 }
