@@ -1,22 +1,18 @@
 window.onload = function () {
-    // localStorage.clear();
-    // $("#favoriteDiv").html(localStorage.getItem("faves"));
-   
-    var APIKey = "yQCxNg8ge124VevFZPY3tVrN0POiyQEx";
 
-    var clicks = 0;
-    var topics = ["cat", "fish", "sloth", "otter", "seal", "monkey", "puppy", "penguin"];
+    var APIKey = "yQCxNg8ge124VevFZPY3tVrN0POiyQEx";
+    var topics = ["cat", "fish", "sloth", "otter", "seal", "monkey", "puppy", "penguin", "pigeon"];
     var counter = 0;
     function displayAnimals() {
-        $(this).attr("data-clicks", clicks);
-        //    clicks =  $(this).attr("data-clicks")
+        $(this).attr("data-clicks");
         var l = 24;
 
-        if (clicks > 0) {
+        if ($(this).attr("data-clicks") != undefined) {
             l = 10;
         }
-        clicks++
-        //this refers to the button clicked
+
+        $(this).attr("data-clicks", counter++)
+       
         var topic = $(this).attr("data-name");
 
         var giphyURL = "https://api.giphy.com/v1/gifs/search?q=" + topic + "&api_key=yQCxNg8ge124VevFZPY3tVrN0POiyQEx&limit=" + l;
@@ -32,9 +28,7 @@ window.onload = function () {
             var results = response.data;
             for (var i = 0; i < results.length; i++) {
 
-
                 var animalDiv = $("<div/>");
-                animalDiv.css({minWidth: "300px"});
                 var p = $("<p/>");
                 var t = $("<p/>");
                 var c = $("<button>");
@@ -46,11 +40,9 @@ window.onload = function () {
                 $(animalDiv).append(t, animalImage, p, c).addClass("bg-light")
                 $(animalImage).attr("data-still", results[i].images.fixed_height_still.url)
                 $(animalImage).attr("data-animate", results[i].images.fixed_height.url)
-                $(animalImage).attr("data-state", "still").addClass("gif")
-                animalImage.attr({ width: '300px', height: '200px' });
+                $(animalImage).attr("data-state", "still").addClass("gif mw-100")
                 $("#animals-view").prepend(animalDiv)
             }
-            //     // `<img src=${response.data[i].images.original_still.url}/>`
         });
 
     }
@@ -59,12 +51,7 @@ window.onload = function () {
     //need to reference to document first because that will exist on page load, as opposed to favorites classes which does not yet..
     $(document).on("click", ".favorites", function () {
         var fave = $(this).closest("div").find(".gif")   //looks up to next div then back in for closest .gif
-        
-        // localStorage.setItem('faves', fave);
-        $(fave).clone().appendTo("#favoriteDiv").addClass("m-2");
-        // var newFave = fave;
-        // localStorage.setItem("faves", newFave);
-    
+        $(fave).clone().appendTo("#favoriteDiv").addClass("m-2");  
     })
 
     
@@ -75,9 +62,6 @@ window.onload = function () {
 
         // Loops through the array of animals
         for (var i = 0; i < topics.length; i++) {
-
-            // Then dynamicaly generates buttons for each animal in the array
-            // This code $("<button>") is all jQuery needs to create the beginning and end tag. (<button></button>)
 
             var a = $("<button>");
             // Adds a class of movie to our button
@@ -94,13 +78,8 @@ window.onload = function () {
     // This function handles events where the add topic button is clicked
     $("#add-animal").on("click", function (event) {
         event.preventDefault();
-        // This line of code will grab the input from the textbox
         var animal = $("#animal-input").val().trim();
-
-        // The animal from the textbox is then added to our array
         topics.push(animal);
-
-        // Calling renderButtons which handles the processing of our topics array
         renderButtons();
         $("#animal-input").val("")
     })
@@ -115,16 +94,14 @@ window.onload = function () {
             $(this).attr("data-state", 'animate')
         }
 
-
         if (state === "animate") {
             $(this).attr("src", $(this).attr("data-still"))
             $(this).attr("data-state", 'still')
         }
-
     });
 
     renderButtons();
-    
     $(document).on("click", ".animal", displayAnimals);
+   
 
 }
