@@ -10,23 +10,28 @@
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
         crossorigin="anonymous"></script>
     <script src="app.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Hanalei+Fill" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
 </head>
 
 <body>
-    <div class="container-fluid bg-dark">
-        <div class="row, mx-auto pt-3" id="buttons-view"></div>
+    <div class="container-fluid">
+        <div class= "p-2 text-center"><h1 id="title">Welcome To The Zoo!</h1></div>
+        </div>
+        <div class="row, mx-auto pt-5 text-center">
+        <div class="p-3 col-md-auto" id="buttons-view"></div></div>
        
         <div class = "row mt-3 text-center ">
             <form class = "col-md-2" id="animal-form">
-                <label class = "ml-3 p-2 bg-light" for="animal-input">Add an Animal</label>
+                <label class = "ml-3 p-2" for="animal-input">Add an Animal:</label>
                 <input type="text" id="animal-input"><br>
 
                 <!-- Button triggers new animal to be added -->
-                <input class="btn-danger" id="add-animal" type="submit" value="Submit">
+                <input class="btn-danger mt-3" id="add-animal" type="submit" value="Submit">
             </form>
             <!-- favorites get dumped here -->
             <div class = "m-3 col-md-4" id = "favoriteDiv">
-                <h5 class = "text-danger">&#8681; Your Favorite Gifs &#8681;</h3>
+                <h5 class>&#8681; Your Favorite Gifs &#8681;</h3>
             </div>
             <!-- Animals will get dumped here -->
             <div class = "ml-3 col-md-4" id="animals-view"></div>

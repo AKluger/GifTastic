@@ -1,0 +1,13 @@
+body{
+    
+        background-image: linear-gradient(to bottom right, red, yellow);
+      }
+
+    #title  {
+    font-size: 60px;
+    font-family: 'Hanalei Fill', cursive;}
+
+    #animal-form    {
+        font-weight:bold;
+        margin: 10px;
+    }

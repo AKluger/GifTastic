@@ -34,10 +34,10 @@ window.onload = function () {
                 var c = $("<button>");
                 $(p).text("Rating: " + results[i].rating).addClass("h5 mb-2")
                 $(t).text(results[i].title).addClass("h5 mb-1");
-                $(c).text("Add to Favorites").addClass("btn-danger favorites mb-4")
+                $(c).text("Add to Favorites").addClass("btn-primary favorites mb-4")
                 var animalImage = $("<img/>");
                 $(animalImage).attr("src", results[i].images.fixed_height_still.url);
-                $(animalDiv).append(t, animalImage, p, c).addClass("bg-light")
+                $(animalDiv).append(t, animalImage, p, c).addClass("bg-white")
                 $(animalImage).attr("data-still", results[i].images.fixed_height_still.url)
                 $(animalImage).attr("data-animate", results[i].images.fixed_height.url)
                 $(animalImage).attr("data-state", "still").addClass("gif mw-100")
@@ -65,7 +65,7 @@ window.onload = function () {
 
             var a = $("<button>");
             // Adds a class of movie to our button
-            a.addClass("animal btn-success mr-1 mb-1");
+            a.addClass("animal btn-dark mr-2 mb-1 p-3");
             // Added a data-attribute
             a.attr("data-name", topics[i]);
             // Provided the initial button text
