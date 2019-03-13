@@ -1,11 +1,11 @@
 window.onload = function () {
 
-    var APIKey = "yQCxNg8ge124VevFZPY3tVrN0POiyQEx";
-    var topics = ["cat", "fish", "sloth", "otter", "seal", "monkey", "puppy", "penguin", "pigeon"];
-    var counter = 0;
+    const APIKey = "yQCxNg8ge124VevFZPY3tVrN0POiyQEx";
+    const topics = ["cat", "fish", "sloth", "otter", "seal", "monkey", "puppy", "penguin", "pigeon"];
+    let counter = 0;
     function displayAnimals() {
         $(this).attr("data-clicks");
-        var l = 24;
+        let l = 24;
 
         if ($(this).attr("data-clicks") != undefined) {
             l = 10;
@@ -13,11 +13,11 @@ window.onload = function () {
 
         $(this).attr("data-clicks", counter++)
        
-        var topic = $(this).attr("data-name");
+        let topic = $(this).attr("data-name");
 
-        var giphyURL = "https://api.giphy.com/v1/gifs/search?q=" + topic + "&api_key=yQCxNg8ge124VevFZPY3tVrN0POiyQEx&limit=" + l;
+        const giphyURL = "https://api.giphy.com/v1/gifs/search?q=" + topic + "&api_key="+APIKey+"&limit=" + l;
 
-        var movieURL = "https://www.omdbapi.com/?t=" + topic + "&y=&plot=short&apikey=trilogy"
+        let movieURL = "https://www.omdbapi.com/?t=" + topic + "&y=&plot=short&apikey=trilogy"
         //returns object with array called data.
         // Creates AJAX call for the specific animal button being clicked
         $.ajax({
@@ -25,17 +25,17 @@ window.onload = function () {
             method: "GET"
         }).then(function (response) {
 
-            var results = response.data;
-            for (var i = 0; i < results.length; i++) {
+            let results = response.data;
+            for (let i = 0; i < results.length; i++) {
 
-                var animalDiv = $("<div/>");
-                var p = $("<p/>");
-                var t = $("<p/>");
-                var c = $("<button>");
+                let animalDiv = $("<div/>");
+                let p = $("<p/>");
+                let t = $("<p/>");
+                let c = $("<button>");
                 $(p).text("Rating: " + results[i].rating).addClass("h5 mb-2")
                 $(t).text(results[i].title).addClass("h5 mb-1");
                 $(c).text("Add to Favorites").addClass("btn-primary favorites mb-4")
-                var animalImage = $("<img/>");
+                let animalImage = $("<img/>");
                 $(animalImage).attr("src", results[i].images.fixed_height_still.url);
                 $(animalDiv).append(t, animalImage, p, c).addClass("bg-white")
                 $(animalImage).attr("data-still", results[i].images.fixed_height_still.url)
@@ -44,13 +44,12 @@ window.onload = function () {
                 $("#animals-view").prepend(animalDiv)
             }
         });
-
     }
 
     //button to add gif to favorites
     //need to reference to document first because that will exist on page load, as opposed to favorites classes which does not yet..
     $(document).on("click", ".favorites", function () {
-        var fave = $(this).closest("div").find(".gif")   //looks up to next div then back in for closest .gif
+        let fave = $(this).closest("div").find(".gif")   //looks up to next div then back in for closest .gif
         $(fave).clone().appendTo("#favoriteDiv").addClass("m-2");  
     })
 
@@ -61,10 +60,9 @@ window.onload = function () {
         $("#buttons-view").empty();
 
         // Loops through the array of animals
-        for (var i = 0; i < topics.length; i++) {
+        for (let i = 0; i < topics.length; i++) {
 
-            var a = $("<button>");
-            // Adds a class of movie to our button
+            let a = $("<button>");
             a.addClass("animal btn-dark mr-2 mb-1 p-3");
             // Added a data-attribute
             a.attr("data-name", topics[i]);
@@ -78,7 +76,7 @@ window.onload = function () {
     // This function handles events where the add topic button is clicked
     $("#add-animal").on("click", function (event) {
         event.preventDefault();
-        var animal = $("#animal-input").val().trim();
+        let animal = $("#animal-input").val().trim();
         topics.push(animal);
         renderButtons();
         $("#animal-input").val("")
@@ -87,7 +85,7 @@ window.onload = function () {
     $(document).on("click", ".gif", function () {
 
         // variable named state to store the image's data-state into it.
-        var state = $(this).attr("data-state");
+        let state = $(this).attr("data-state");
         console.log(state);
         if (state === "still") {
             $(this).attr("src", $(this).attr("data-animate"))

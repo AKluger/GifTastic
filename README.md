@@ -10,7 +10,7 @@ A searchable encyclopedia of gifs utilizing Giphy API.
 * AJAX/API/JSON
 
 ### Sample Image
-![screenshot](/giftastic.png)
+![screenshot](/gifGenerator.png)
 
 ##### ANIMAL THEME:
 
